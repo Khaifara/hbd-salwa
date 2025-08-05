@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Salwa! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #ff5252, #26a69a);
+        }
+
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card.flipped {
+            background: white;
+            color: #333;
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .birthday-message {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+        }
+
+        .balloon-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .floating-balloon {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: balloonFloat 4s ease-out forwards;
+            opacity: 0.9;
+        }
+
+        @keyframes balloonFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+                transform: translateY(90vh) translateX(0) scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(30vh) translateX(var(--drift)) scale(1);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(var(--drift)) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .balloon-string {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
+            border-radius: 1px;
+        }
+
+        .hearts {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .name-display {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            margin: 20px 0;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+        }
+
+        .year-selector {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .year-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            animation: yearGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes yearGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .slider-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .year-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 50%, #ff6b6b 100%);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .year-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .year-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .year-slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .year-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: bold;
+        }
+            .container { padding: 20px; }
+            .title { font-size: 2rem; }
+            .name-display { font-size: 2.2rem; }
+            .memory-game { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts">💖✨</div>
+        
+        <!-- Step 1: Welcome -->
+        <div class="step active" id="step1">
+            <h1 class="title">Halooo Kamu! 🥳</h1>
+            <p class="subtitle">Ada yang spesial nih buat seseorang yang istimewa... 😊</p>
+            <button class="btn" onclick="nextStep(2)">Mulai</button>
+        </div>
+
+        <!-- Step 2: Name Confirmation -->
+        <div class="step" id="step2">
+            <h1 class="title">Kamu Salwa ya? ✨</h1>
+            <div class="name-display">SALWA SALSABILA</div>
+            <p class="subtitle">Kalau iya, lanjut yuk! 😋</p>
+            <button class="btn" onclick="nextStep(3)">Iya, itu aku!</button>
+        </div>
+
+        <!-- Step 3: Birthday Date -->
+        <div class="step" id="step3">
+            <h1 class="title">Tahun Lahir Kamu? 🤔</h1>
+            <p class="subtitle">Geser slider untuk pilih tahun lahir kamu! 😊</p>
+            
+            <div class="year-selector">
+                <div class="year-display" id="yearDisplay">2008</div>
+                <div class="slider-container">
+                    <input type="range" id="yearSlider" min="1990" max="2010" value="2008" class="year-slider">
+                </div>
+                <div class="year-labels">
+                    <span>1990</span>
+                    <span>2010</span>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="checkYear()">Lanjutkan</button>
+        </div>
+
+        <!-- Step 4: Memory Game -->
+        <div class="step" id="step4">
+            <h1 class="title">Memory Game 🎮</h1>
+            <p class="subtitle">Cocokkan kartu-kartu ini yaa! 😋</p>
+            <div class="progress" id="progress">Kartu tersisa: 8 pasang</div>
+            <div class="memory-game" id="memoryGame"></div>
+            <button class="btn" id="gameBtn" onclick="showMessage()" style="display:none;">Lihat Pesan Spesial!</button>
+            <button class="btn" onclick="resetGame()" style="background: linear-gradient(45deg, #ffa726, #ff7043);">Coba Lagi!</button>
+        </div>
+
+        <!-- Step 5: Birthday Message -->
+        <div class="step" id="step5">
+            <h1 class="title">🎉 SELAMAT ULANG TAHUN! 🎉</h1>
+            <div class="name-display">SALWA SALSABILA</div>
+            <div class="birthday-message">
+                <p><strong>Selamat ulang tahun yang ke-17! 🎂</strong></p>
+                <br>
+                <p>Semoga di usia yang baru ini, kamu semakin bahagia, sehat selalu, dan semua mimpi-mimpi indahmu bisa terwujud ya! ✨</p>
+                <br>
+                <p>Tetap jadi pribadi yang ceria dan menginspirasi seperti sekarang. Kamu itu luar biasa banget! 💖</p>
+                <br>
+                <p>Semoga tahun ini dipenuhi dengan kebahagiaan, pencapaian yang membanggakan, dan momen-momen indah yang tak terlupakan! 🌟</p>
+                <br>
+                <p><strong>Selamat ulang tahun, Salwa! 🥳🎊</strong></p>
+            </div>
+            <button class="btn" onclick="celebrate()">Rayakan! 🎆</button>
+            <button class="btn" onclick="restart()" style="background: linear-gradient(45deg, #ab47bc, #8e24aa);">Main Lagi!</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let gameCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        
+        const cardEmojis = ['🎂', '🎉', '🎁', '🎈', '🌟', '💖', '🎊', '✨'];
+        const gameEmojis = [...cardEmojis, ...cardEmojis];
+
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            if (step === 4) {
+                initMemoryGame();
+            }
+        }
+
+        function initMemoryGame() {
+            const gameContainer = document.getElementById('memoryGame');
+            gameContainer.innerHTML = '';
+            gameCards = [];
+            flippedCards = [];
+            matchedPairs = 0;
+            
+            // Shuffle cards
+            const shuffledEmojis = gameEmojis.sort(() => Math.random() - 0.5);
+            
+            shuffledEmojis.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+                card.innerHTML = '?';
+                card.addEventListener('click', flipCard);
+                gameContainer.appendChild(card);
+                gameCards.push(card);
+            });
+            
+            updateProgress();
+        }
+
+        function flipCard(e) {
+            const card = e.target;
+            
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) {
+                return;
+            }
+            
+            card.classList.add('flipped');
+            card.innerHTML = card.dataset.emoji;
+            flippedCards.push(card);
+            
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 800);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                
+                if (matchedPairs === 8) {
+                    setTimeout(() => {
+                        document.getElementById('gameBtn').style.display = 'inline-block';
+                        createBalloons();
+                    }, 500);
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.innerHTML = '?';
+                card2.innerHTML = '?';
+            }
+            
+            flippedCards = [];
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const remaining = 8 - matchedPairs;
+            document.getElementById('progress').textContent = `Kartu tersisa: ${remaining} pasang`;
+        }
+
+        function resetGame() {
+            initMemoryGame();
+            document.getElementById('gameBtn').style.display = 'none';
+        }
+
+        function showMessage() {
+            nextStep(5);
+            createBalloons();
+        }
+
+        function createBalloons() {
+            const balloonContainer = document.createElement('div');
+            balloonContainer.className = 'balloon-container';
+            document.body.appendChild(balloonContainer);
+            
+            const balloonEmojis = ['🎈', '🎂', '🎁', '🎉', '💖', '⭐', '🌟', '✨'];
+            const balloonColors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#fd79a8', '#a29bfe', '#6c5ce7'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'floating-balloon';
+                    
+                    // Random balloon emoji
+                    balloon.innerHTML = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                    
+                    // Random position and drift
+                    const startX = Math.random() * 100;
+                    const drift = (Math.random() - 0.5) * 200; // Random horizontal drift
+                    
+                    balloon.style.left = startX + '%';
+                    balloon.style.setProperty('--drift', drift + 'px');
+                    balloon.style.animationDelay = Math.random() * 2 + 's';
+                    balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    
+                    // Add balloon string
+                    const balloonString = document.createElement('div');
+                    balloonString.className = 'balloon-string';
+                    balloon.appendChild(balloonString);
+                    
+                    balloonContainer.appendChild(balloon);
+                    
+                    // Remove balloon after animation
+                    setTimeout(() => {
+                        balloon.remove();
+                    }, 6000);
+                }, i * 200);
+            }
+            
+            // Remove container after all balloons are done
+            setTimeout(() => {
+                balloonContainer.remove();
+            }, 8000);
+        }
+
+        function celebrate() {
+            // Multiple balloon releases
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createBalloons();
+                }, i * 1500);
+            }
+            
+            // Change background temporarily
+            document.body.style.background = 'linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef, #ffeaa7)';
+            setTimeout(() => {
+                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }, 4000);
+        }
+
+        function restart() {
+            currentStep = 1;
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('gameBtn').style.display = 'none';
+        }
+
+        function checkYear() {
+            const selectedYear = document.getElementById('yearSlider').value;
+            
+            if (selectedYear == '2008') {
+                // Benar! Lanjut ke game
+                nextStep(4);
+            } else {
+                // Salah tahun, tapi tetap lanjut dengan pesan yang berbeda
+                alert('Hmm, sepertinya bukan tahun itu deh 😅\nTapi gak apa-apa, tetap lanjut aja! 😊');
+                nextStep(4);
+            }
+        }
+
+        // Update year display when slider moves
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearSlider = document.getElementById('yearSlider');
+            const yearDisplay = document.getElementById('yearDisplay');
+            
+            if (yearSlider && yearDisplay) {
+                yearSlider.addEventListener('input', function() {
+                    yearDisplay.textContent = this.value;
+                    
+                    // Add special effect when reaching 2008
+                    if (this.value == '2008') {
+                        yearDisplay.style.color = '#4CAF50';
+                        yearDisplay.style.animation = 'yearGlow 0.5s ease-in-out, pulse 0.5s ease-in-out';
+                    } else {
+                        yearDisplay.style.color = '#ff6b6b';
+                        yearDisplay.style.animation = 'yearGlow 2s ease-in-out infinite';
+                    }
+                });
+            }
+        });
+        setInterval(() => {
+            const hearts = document.querySelector('.hearts');
+            if (Math.random() < 0.3) {
+                hearts.innerHTML = ['💖✨', '🎉💕', '⭐💖', '🌟✨'][Math.floor(Math.random() * 4)];
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
