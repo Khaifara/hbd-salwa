@@ -12,132 +12,218 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatParticle 20s infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) scale(1); opacity: 0; }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
             text-align: center;
-            max-width: 500px;
+            max-width: 550px;
             width: 90%;
             position: relative;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 90px rgba(0, 0, 0, 0.3);
         }
 
         .step {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: slideIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .step.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .title {
-            font-size: 2.5rem;
-            color: #333;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #e73c7e, #ee7752, #23a6d5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            font-weight: bold;
+            font-weight: 900;
+            letter-spacing: -1px;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            font-size: 1.25rem;
+            color: #555;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            font-weight: 500;
         }
 
         .btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border-radius: 50px;
+            padding: 18px 45px;
+            font-size: 1.15rem;
+            border-radius: 60px;
             cursor: pointer;
             margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(45deg, #ff5252, #26a69a);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) scale(1.02);
         }
 
         .memory-game {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin: 30px 0;
-            max-width: 400px;
+            gap: 12px;
+            margin: 35px 0;
+            max-width: 420px;
             margin-left: auto;
             margin-right: auto;
+            perspective: 1000px;
         }
 
         .card {
             aspect-ratio: 1;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             transform-style: preserve-3d;
             position: relative;
+            box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: scale(1.08) rotateZ(5deg);
+            box-shadow: 0 12px 30px rgba(240, 147, 251, 0.6);
         }
 
         .card.flipped {
-            background: white;
+            background: linear-gradient(135deg, #white 0%, #f8f9fa 100%);
             color: #333;
-            transform: rotateY(180deg);
+            transform: rotateY(180deg) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .card.matched {
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
-            animation: pulse 0.5s ease-in-out;
+            animation: matchPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        @keyframes matchPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.2) rotate(5deg); }
+            75% { transform: scale(1.2) rotate(-5deg); }
         }
 
         .birthday-message {
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 20px 0;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 35px;
+            border-radius: 25px;
+            margin: 25px 0;
             color: #333;
-            line-height: 1.8;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+            line-height: 1.9;
+            font-size: 1.15rem;
+            box-shadow: 0 15px 40px rgba(252, 182, 159, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            font-weight: 500;
         }
 
         .balloon-container {
@@ -153,180 +239,204 @@
 
         .floating-balloon {
             position: absolute;
-            font-size: 2.5rem;
-            animation: balloonFloat 4s ease-out forwards;
-            opacity: 0.9;
+            font-size: 3rem;
+            animation: balloonFloat 5s ease-out forwards;
+            opacity: 0.95;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
         }
 
         @keyframes balloonFloat {
             0% {
-                transform: translateY(100vh) translateX(0) scale(0.5);
+                transform: translateY(100vh) translateX(0) scale(0.3) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.9;
-                transform: translateY(90vh) translateX(0) scale(0.8);
+            15% {
+                opacity: 1;
+                transform: translateY(85vh) translateX(0) scale(0.9) rotate(10deg);
             }
             50% {
                 opacity: 1;
-                transform: translateY(30vh) translateX(var(--drift)) scale(1);
+                transform: translateY(25vh) translateX(var(--drift)) scale(1.1) rotate(-10deg);
             }
             100% {
-                transform: translateY(-20vh) translateX(var(--drift)) scale(0.8);
+                transform: translateY(-30vh) translateX(var(--drift)) scale(0.7) rotate(20deg);
                 opacity: 0;
             }
-        }
-
-        .balloon-string {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 30px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
-            border-radius: 1px;
         }
 
         .hearts {
             position: absolute;
-            top: -20px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2rem;
-            animation: float 2s ease-in-out infinite;
+            font-size: 2.5rem;
+            animation: heartFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateX(-50%) translateY(0px); }
-            50% { transform: translateX(-50%) translateY(-10px); }
+        @keyframes heartFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0px) rotate(0deg); }
+            25% { transform: translateX(-50%) translateY(-12px) rotate(-5deg); }
+            75% { transform: translateX(-50%) translateY(-8px) rotate(5deg); }
         }
 
         .progress {
             text-align: center;
-            margin: 20px 0;
-            font-size: 1.1rem;
-            color: #666;
-            font-weight: bold;
-        }
-
-        .name-display {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 25px 0;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            margin: 20px 0;
-            animation: glow 2s ease-in-out infinite;
+            font-weight: 800;
         }
 
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
-            50% { text-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+        .name-display {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #667eea 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            margin: 25px 0;
+            animation: nameGlow 2.5s ease-in-out infinite;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(240, 147, 251, 0.5);
+        }
+
+        @keyframes nameGlow {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.2); }
         }
 
         .year-selector {
-            margin: 40px 0;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            margin: 45px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(102, 126, 234, 0.2);
         }
 
         .year-display {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #ff6b6b;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            animation: yearGlow 2s ease-in-out infinite;
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 35px;
+            animation: yearPulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(245, 87, 108, 0.4));
         }
 
-        @keyframes yearGlow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        @keyframes yearPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.08) rotate(-2deg); }
         }
 
         .slider-container {
             position: relative;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .year-slider {
             width: 100%;
-            height: 8px;
+            height: 12px;
             border-radius: 50px;
-            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 50%, #ff6b6b 100%);
+            background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 50%, #f093fb 100%);
             outline: none;
             -webkit-appearance: none;
             cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .year-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.6);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid white;
         }
 
         .year-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+            transform: scale(1.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.8);
         }
 
         .year-slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            border: 3px solid white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.6);
         }
 
         .year-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.9rem;
+            margin-top: 15px;
+            font-size: 1rem;
             color: #666;
-            font-weight: bold;
+            font-weight: 700;
         }
-            .container { padding: 20px; }
-            .title { font-size: 2rem; }
-            .name-display { font-size: 2.2rem; }
-            .memory-game { grid-template-columns: repeat(3, 1fr); }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            .title { font-size: 2.2rem; }
+            .name-display { font-size: 2.5rem; }
+            .memory-game { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .year-display { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
+    <div class="bg-particles" id="particles"></div>
+    
     <div class="container">
         <div class="hearts">💖✨</div>
         
         <!-- Step 1: Welcome -->
         <div class="step active" id="step1">
             <h1 class="title">Halooo Kamu! 🥳</h1>
-            <p class="subtitle">Ada yang spesial nih buat seseorang yang istimewa... 😊</p>
-            <button class="btn" onclick="nextStep(2)">Mulai</button>
+            <p class="subtitle">Ada sesuatu yang super spesial untuk seseorang yang luar biasa istimewa... 😊✨</p>
+            <button class="btn" onclick="nextStep(2)">🎉 Mulai Petualangan!</button>
         </div>
 
         <!-- Step 2: Name Confirmation -->
         <div class="step" id="step2">
             <h1 class="title">Kamu Salwa ya? ✨</h1>
             <div class="name-display">SALWA SALSABILA</div>
-            <p class="subtitle">Kalau iya, lanjut yuk! 😋</p>
-            <button class="btn" onclick="nextStep(3)">Iya, itu aku!</button>
+            <p class="subtitle">Kalau benar kamu orangnya, ayo lanjut ke surprise-nya! 😋</p>
+            <button class="btn" onclick="nextStep(3)">✅ Iya, itu aku!</button>
         </div>
 
         <!-- Step 3: Birthday Date -->
         <div class="step" id="step3">
             <h1 class="title">Tahun Lahir Kamu? 🤔</h1>
-            <p class="subtitle">Geser slider untuk pilih tahun lahir kamu! 😊</p>
+            <p class="subtitle">Geser slider ini untuk pilih tahun lahir kamu ya! 🎯</p>
             
             <div class="year-selector">
                 <div class="year-display" id="yearDisplay">2008</div>
@@ -339,17 +449,17 @@
                 </div>
             </div>
             
-            <button class="btn" onclick="checkYear()">Lanjutkan</button>
+            <button class="btn" onclick="checkYear()">🚀 Lanjutkan</button>
         </div>
 
         <!-- Step 4: Memory Game -->
         <div class="step" id="step4">
             <h1 class="title">Memory Game 🎮</h1>
-            <p class="subtitle">Cocokkan kartu-kartu ini yaa! 😋</p>
+            <p class="subtitle">Cocokkan semua kartu untuk buka pesan spesial! 😋</p>
             <div class="progress" id="progress">Kartu tersisa: 8 pasang</div>
             <div class="memory-game" id="memoryGame"></div>
-            <button class="btn" id="gameBtn" onclick="showMessage()" style="display:none;">Lihat Pesan Spesial!</button>
-            <button class="btn" onclick="resetGame()" style="background: linear-gradient(45deg, #ffa726, #ff7043);">Coba Lagi!</button>
+            <button class="btn" id="gameBtn" onclick="showMessage()" style="display:none;">🎁 Lihat Pesan Spesial!</button>
+            <button class="btn" onclick="resetGame()" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🔄 Coba Lagi!</button>
         </div>
 
         <!-- Step 5: Birthday Message -->
@@ -357,22 +467,36 @@
             <h1 class="title">🎉 SELAMAT ULANG TAHUN! 🎉</h1>
             <div class="name-display">SALWA SALSABILA</div>
             <div class="birthday-message">
-                <p><strong>Selamat ulang tahun yang ke-17! 🎂</strong></p>
+                <p><strong>🎂 Selamat ulang tahun yang ke-17! 🎂</strong></p>
                 <br>
                 <p>Semoga di usia yang baru ini, kamu semakin bahagia, sehat selalu, dan semua mimpi-mimpi indahmu bisa terwujud ya! ✨</p>
                 <br>
-                <p>Tetap jadi pribadi yang ceria dan menginspirasi seperti sekarang. Kamu itu luar biasa banget! 💖</p>
+                <p>Tetap jadi pribadi yang ceria, inspiratif, dan amazing seperti sekarang. Kamu itu luar biasa banget! 💖</p>
                 <br>
-                <p>Semoga tahun ini dipenuhi dengan kebahagiaan, pencapaian yang membanggakan, dan momen-momen indah yang tak terlupakan! 🌟</p>
+                <p>Semoga tahun ini dipenuhi dengan kebahagiaan tak terbatas, pencapaian yang membanggakan, dan momen-momen indah yang tak terlupakan! 🌟</p>
                 <br>
-                <p><strong>Selamat ulang tahun, Salwa! 🥳🎊</strong></p>
+                <p><strong>Selamat ulang tahun, Salwa! Semoga hari ini jadi hari terbaik! 🥳🎊</strong></p>
             </div>
-            <button class="btn" onclick="celebrate()">Rayakan! 🎆</button>
-            <button class="btn" onclick="restart()" style="background: linear-gradient(45deg, #ab47bc, #8e24aa);">Main Lagi!</button>
+            <button class="btn" onclick="celebrate()">🎆 Rayakan Sekarang!</button>
+            <button class="btn" onclick="restart()" style="background: linear-gradient(135deg, #11998e, #38ef7d);">🔁 Main Lagi!</button>
         </div>
     </div>
 
     <script>
+        // Create animated background particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
         let currentStep = 1;
         let gameCards = [];
         let flippedCards = [];
@@ -398,7 +522,6 @@
             flippedCards = [];
             matchedPairs = 0;
             
-            // Shuffle cards
             const shuffledEmojis = gameEmojis.sort(() => Math.random() - 0.5);
             
             shuffledEmojis.forEach((emoji, index) => {
@@ -406,7 +529,7 @@
                 card.className = 'card';
                 card.dataset.emoji = emoji;
                 card.dataset.index = index;
-                card.innerHTML = '?';
+                card.innerHTML = '❓';
                 card.addEventListener('click', flipCard);
                 gameContainer.appendChild(card);
                 gameCards.push(card);
@@ -427,7 +550,7 @@
             flippedCards.push(card);
             
             if (flippedCards.length === 2) {
-                setTimeout(checkMatch, 800);
+                setTimeout(checkMatch, 900);
             }
         }
 
@@ -443,13 +566,14 @@
                     setTimeout(() => {
                         document.getElementById('gameBtn').style.display = 'inline-block';
                         createBalloons();
-                    }, 500);
+                        createConfetti();
+                    }, 600);
                 }
             } else {
                 card1.classList.remove('flipped');
                 card2.classList.remove('flipped');
-                card1.innerHTML = '?';
-                card2.innerHTML = '?';
+                card1.innerHTML = '❓';
+                card2.innerHTML = '❓';
             }
             
             flippedCards = [];
@@ -469,6 +593,7 @@
         function showMessage() {
             nextStep(5);
             createBalloons();
+            createConfetti();
         }
 
         function createBalloons() {
@@ -476,59 +601,61 @@
             balloonContainer.className = 'balloon-container';
             document.body.appendChild(balloonContainer);
             
-            const balloonEmojis = ['🎈', '🎂', '🎁', '🎉', '💖', '⭐', '🌟', '✨'];
-            const balloonColors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#fd79a8', '#a29bfe', '#6c5ce7'];
+            const balloonEmojis = ['🎈', '🎂', '🎁', '🎉', '💖', '⭐', '🌟', '✨', '🎊', '🥳'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
                     const balloon = document.createElement('div');
                     balloon.className = 'floating-balloon';
-                    
-                    // Random balloon emoji
                     balloon.innerHTML = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
                     
-                    // Random position and drift
                     const startX = Math.random() * 100;
-                    const drift = (Math.random() - 0.5) * 200; // Random horizontal drift
+                    const drift = (Math.random() - 0.5) * 250;
                     
                     balloon.style.left = startX + '%';
                     balloon.style.setProperty('--drift', drift + 'px');
-                    balloon.style.animationDelay = Math.random() * 2 + 's';
-                    balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                    
-                    // Add balloon string
-                    const balloonString = document.createElement('div');
-                    balloonString.className = 'balloon-string';
-                    balloon.appendChild(balloonString);
+                    balloon.style.animationDelay = Math.random() * 1 + 's';
+                    balloon.style.animationDuration = (Math.random() * 2 + 4) + 's';
                     
                     balloonContainer.appendChild(balloon);
                     
-                    // Remove balloon after animation
-                    setTimeout(() => {
-                        balloon.remove();
-                    }, 6000);
-                }, i * 200);
+                    setTimeout(() => balloon.remove(), 7000);
+                }, i * 150);
             }
             
-            // Remove container after all balloons are done
-            setTimeout(() => {
-                balloonContainer.remove();
-            }, 8000);
+            setTimeout(() => balloonContainer.remove(), 9000);
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#fd79a8', '#a29bfe', '#6c5ce7'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.position = 'fixed';
+                    confetti.style.zIndex = '9999';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
         }
 
         function celebrate() {
-            // Multiple balloon releases
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 4; i++) {
                 setTimeout(() => {
                     createBalloons();
-                }, i * 1500);
+                    createConfetti();
+                }, i * 1200);
             }
             
-            // Change background temporarily
-            document.body.style.background = 'linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef, #ffeaa7)';
-            setTimeout(() => {
-                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            }, 4000);
+            document.body.style.animation = 'gradientShift 8s ease infinite';
         }
 
         function restart() {
@@ -542,16 +669,13 @@
             const selectedYear = document.getElementById('yearSlider').value;
             
             if (selectedYear == '2008') {
-                // Benar! Lanjut ke game
                 nextStep(4);
             } else {
-                // Salah tahun, tapi tetap lanjut dengan pesan yang berbeda
                 alert('Hmm, sepertinya bukan tahun itu deh 😅\nTapi gak apa-apa, tetap lanjut aja! 😊');
                 nextStep(4);
             }
         }
 
-        // Update year display when slider moves
         document.addEventListener('DOMContentLoaded', function() {
             const yearSlider = document.getElementById('yearSlider');
             const yearDisplay = document.getElementById('yearDisplay');
@@ -560,23 +684,26 @@
                 yearSlider.addEventListener('input', function() {
                     yearDisplay.textContent = this.value;
                     
-                    // Add special effect when reaching 2008
                     if (this.value == '2008') {
-                        yearDisplay.style.color = '#4CAF50';
-                        yearDisplay.style.animation = 'yearGlow 0.5s ease-in-out, pulse 0.5s ease-in-out';
+                        yearDisplay.style.background = 'linear-gradient(135deg, #11998e, #38ef7d)';
+                        yearDisplay.style.webkitBackgroundClip = 'text';
+                        yearDisplay.style.backgroundClip = 'text';
+                        yearDisplay.style.webkitTextFillColor = 'transparent';
                     } else {
-                        yearDisplay.style.color = '#ff6b6b';
-                        yearDisplay.style.animation = 'yearGlow 2s ease-in-out infinite';
+                        yearDisplay.style.background = 'linear-gradient(135deg, #f093fb, #f5576c)';
+                        yearDisplay.style.webkitBackgroundClip = 'text';
+                        yearDisplay.style.backgroundClip = 'text';
+                        yearDisplay.style.webkitTextFillColor = 'transparent';
                     }
                 });
             }
         });
+
         setInterval(() => {
             const hearts = document.querySelector('.hearts');
-            if (Math.random() < 0.3) {
-                hearts.innerHTML = ['💖✨', '🎉💕', '⭐💖', '🌟✨'][Math.floor(Math.random() * 4)];
-            }
-        }, 3000);
+            const heartVariations = ['💖✨', '🎉💕', '⭐💖', '🌟✨', '🎊💝', '🎈💗'];
+            hearts.innerHTML = heartVariations[Math.floor(Math.random() * heartVariations.length)];
+        }, 2500);
     </script>
 </body>
 </html>
